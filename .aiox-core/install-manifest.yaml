@@ -8,7 +8,7 @@
 # - File types for categorization
 #
 version: 5.0.3
-generated_at: "2026-04-16T03:14:54.779Z"
+generated_at: "2026-04-16T03:24:03.323Z"
 generator: scripts/generate-install-manifest.js
 file_count: 1091
 files:
@@ -1241,9 +1241,9 @@ files:
     type: data
     size: 4451
   - path: data/tech-presets/angular-nestjs.md
-    hash: sha256:5423b2a89f6cd35d877f52096b121790bab757b19039695bee41d9dcf75a4488
+    hash: sha256:8d6b907af7e61f73cf7f463933cee1eb23fb3c33836df1df6922472b4ffffc80
     type: data
-    size: 24306
+    size: 25229
   - path: data/tech-presets/csharp.md
     hash: sha256:4667d33407c59fd6c7b4558370893a14df6d461645fc840b2df2fb7508bd6fcf
     type: data

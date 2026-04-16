@@ -86,7 +86,7 @@ export class LoginDto {
 
 ```typescript
 // backend/src/features/auth/dto/user-response.dto.ts
-import { IsString, IsUUID, IsIn } from 'class-validator';
+import { IsString, IsUUID, IsIn, IsEmail } from 'class-validator';
 import { Expose } from 'class-transformer';
 
 export class UserResponseDto {
@@ -155,8 +155,9 @@ export class AuthModule {}
 // backend/src/features/auth/auth.service.ts
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { Response } from 'express';
 import { UserRepository } from './repositories/user.repository';
-import { LoginRequestDto, LoginResponseDto } from '@shared/contracts/auth.contract';
+import { LoginRequestDto, LoginResponseDto, UserDto } from '@shared/contracts/auth.contract';
 
 @Injectable()
 export class AuthService {
@@ -165,19 +166,46 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async login(dto: LoginRequestDto): Promise<LoginResponseDto> {
+  async login(dto: LoginRequestDto, res: Response): Promise<LoginResponseDto> {
     const user = await this.userRepo.findByEmail(dto.email);
     if (!user || !await this.verifyPassword(dto.password, user.passwordHash)) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
     const payload = { sub: user.id, email: user.email, role: user.role };
-    return {
-      accessToken: this.jwtService.sign(payload),
-      refreshToken: this.jwtService.sign(payload, { expiresIn: '7d' }),
-      expiresIn: 3600,
-      user: { id: user.id, email: user.email, name: user.name, role: user.role },
-    };
+    const token = this.jwtService.sign(payload);
+
+    // Set JWT as HttpOnly cookie — never exposed to JavaScript
+    res.cookie('access_token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 3600 * 1000, // 1 hour in ms
+    });
+
+    const userDto: UserDto = { id: user.id, email: user.email, name: user.name, role: user.role };
+    return { user: userDto };
+  }
+}
+
+// backend/src/features/auth/auth.controller.ts (relevant excerpt)
+// Controller passes @Res({ passthrough: true }) to allow cookie setting
+import { Controller, Post, Body, Res } from '@nestjs/common';
+import { Response } from 'express';
+
+@Controller('auth')
+export class AuthController {
+  constructor(private readonly authService: AuthService) {}
+
+  @Post('login')
+  login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response) {
+    return this.authService.login(dto, res);
+  }
+
+  @Post('logout')
+  logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie('access_token');
+    return { message: 'Logged out' };
   }
 }
 ```
@@ -394,7 +422,7 @@ it('should show admin menu', () => {
 
 ## Project Structure
 
-```
+```text
 /
 ├── frontend/                    # Angular 21 application
 │   ├── src/
@@ -586,7 +614,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
 ### Test Pyramid
 
-```
+```text
          /\
         /E2E\           10% - Fluxos críticos do usuário
        /------\
@@ -673,7 +701,7 @@ describe('AuthService', () => {
 
 ### Strategy 1: Mostrar o módulo de referência
 
-```
+```text
 // BOM: ~300 tokens mostrando o padrão
 "Crie ProductsModule idêntico ao AuthModule:
 [cole auth.module.ts]
@@ -693,7 +721,7 @@ export class CreateProductDto {
 
 ### Strategy 3: Testes como especificação
 
-```
+```text
 "Faça estes testes passarem:
 it('should return 404 when product not found')
 it('should validate price is positive')
