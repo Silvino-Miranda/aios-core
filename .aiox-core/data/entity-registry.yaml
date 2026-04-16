@@ -1,6 +1,6 @@
 metadata:
   version: 1.0.0
-  lastUpdated: '2026-04-16T02:59:41.286Z'
+  lastUpdated: '2026-04-16T03:05:01.646Z'
   entityCount: 746
   checksumAlgorithm: sha256
   resolutionRate: 100
@@ -14109,11 +14109,13 @@ entities:
         - jwt
       lifecycle: stable
       adaptability:
-        score: 0.5
+        score: 0.7
         constraints: []
-        extensionPoints: []
-      checksum: sha256:d7e7e11ceeb8214e9224fcce9d5d49964ffddb37b512be64ec9675a1adff3617
-      lastVerified: '2026-04-16T02:59:41.275Z'
+        extensionPoints:
+          - shared/contracts/ # Shared DTOs/schemas between Angular and NestJS
+          - backend/src/features/ # Feature modules follow AuthModule pattern
+      checksum: sha256:5423b2a89f6cd35d877f52096b121790bab757b19039695bee41d9dcf75a4488
+      lastVerified: '2026-04-16T03:05:01.636Z'
   workflows:
     auto-worktree:
       path: .aiox-core/development/workflows/auto-worktree.yaml
