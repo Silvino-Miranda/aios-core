@@ -1,6 +1,6 @@
 metadata:
   version: 1.0.0
-  lastUpdated: '2026-03-11T00:48:55.982Z'
+  lastUpdated: '2026-04-16T02:59:41.286Z'
   entityCount: 746
   checksumAlgorithm: sha256
   resolutionRate: 100
@@ -14098,7 +14098,10 @@ entities:
         - tech
         - preset
       usedBy: []
-      dependencies: []
+      dependencies:
+        - auth
+        - user
+        - jwt
       externalDeps: []
       plannedDeps:
         - auth
@@ -14109,8 +14112,8 @@ entities:
         score: 0.5
         constraints: []
         extensionPoints: []
-      checksum: sha256:225db28dd5970a708e26dd02a88890f406d1780a013f986a0670b7c7731a1ebf
-      lastVerified: '2026-03-08T03:53:26.108Z'
+      checksum: sha256:d7e7e11ceeb8214e9224fcce9d5d49964ffddb37b512be64ec9675a1adff3617
+      lastVerified: '2026-04-16T02:59:41.275Z'
   workflows:
     auto-worktree:
       path: .aiox-core/development/workflows/auto-worktree.yaml
