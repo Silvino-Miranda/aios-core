@@ -652,7 +652,8 @@ describe('AuthService', () => {
 
   it('should throw UnauthorizedException for invalid credentials', async () => {
     userRepo.findByEmail.mockResolvedValue(null);
-    await expect(service.login({ email: 'x@x.com', password: '123' }))
+    const mockRes = { cookie: jest.fn() } as unknown as Response;
+    await expect(service.login({ email: 'x@x.com', password: '123' }, mockRes))
       .rejects.toThrow('Invalid credentials');
   });
 });
@@ -664,6 +665,7 @@ describe('AuthService', () => {
 // frontend/src/app/features/auth/auth.service.spec.ts
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { AuthService } from './auth.service';
 import { UserBuilder } from '@test/builders/user.builder';
 
@@ -673,7 +675,7 @@ describe('AuthService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, RouterTestingModule],
     });
     service = TestBed.inject(AuthService);
     http = TestBed.inject(HttpTestingController);

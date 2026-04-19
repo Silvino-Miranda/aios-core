@@ -8,7 +8,7 @@
 # - File types for categorization
 #
 version: 5.0.3
-generated_at: "2026-04-18T14:26:23.896Z"
+generated_at: "2026-04-19T02:31:39.168Z"
 generator: scripts/generate-install-manifest.js
 file_count: 1091
 files:
@@ -1221,9 +1221,9 @@ files:
     type: data
     size: 9575
   - path: data/entity-registry.yaml
-    hash: sha256:3d2e359c2d0bf681aa9a138376c490cf5835a956d1100dcfbc3d552cdf31fee1
+    hash: sha256:650d1d153606caa3566f6c129ae9ec440e7627a5346d7db2741d8defdfeb4c72
     type: data
-    size: 522730
+    size: 522689
   - path: data/learned-patterns.yaml
     hash: sha256:24ac0b160615583a0ff783d3da8af80b7f94191575d6db2054ec8e10a3f945dc
     type: data
@@ -1241,9 +1241,9 @@ files:
     type: data
     size: 4451
   - path: data/tech-presets/angular-nestjs.md
-    hash: sha256:8d6b907af7e61f73cf7f463933cee1eb23fb3c33836df1df6922472b4ffffc80
+    hash: sha256:c3279d0561f3933cd654351281ca75dfaffe798ce0cace60faa59e753013abc7
     type: data
-    size: 25229
+    size: 25388
   - path: data/tech-presets/csharp.md
     hash: sha256:4667d33407c59fd6c7b4558370893a14df6d461645fc840b2df2fb7508bd6fcf
     type: data
